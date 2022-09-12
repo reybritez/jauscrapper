@@ -12,7 +12,7 @@ class Producto(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
     nombre = db.Column(db.String(80), nullable = False)
-    precio = db.Column(db.NUMERIC, nullable = False)
+    precio = db.Column(db.Integer, nullable = False)
 
     def __repr__(self):
         return '<Productos %r' % self.nombre
