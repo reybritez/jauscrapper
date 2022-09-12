@@ -1,3 +1,23 @@
 <!-- Helpers 
 	=
 	Validadores de Formulario (Pa que no metan cualquier cosa en el form) -->
+
+	{% macro generate_fields(form) -%}
+	{% for field in form %}
+		{% if field.type != 'CSRFTokenField' %}
+			<div class="form-group{%if field.errors %} has-error{% endif %}">
+			{{ field.label }} 
+			{% if field.type in ('StringField', 'IntegerField')  %}
+				{{ field(class='form-control') }}
+			{% else %}
+				{{ field() }}
+			{% endif %}
+			{% for error in field.errors %}
+				<span class="help-block">{{ error }}</span>
+			{% endfor %}
+			</div>
+		{% else %}
+			{{ field() }}
+		{% endif %}
+	{% endfor %}
+{%- endmacro %}
