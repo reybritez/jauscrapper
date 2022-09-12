@@ -1,5 +1,6 @@
 <!-- Documento base que se va a repetir en todas las páginas, 
 contiene al header y a las importaciones principales del sitio-->
+{% from 'helpers/_forms.html' import generate_fields with context %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -48,11 +49,12 @@ contiene al header y a las importaciones principales del sitio-->
 		{# End Flashed messages #}
 		{% block body %}{% endblock %}
 	</div>
+	<!-- Importé estilos poronga pq me da igual la verdad. No quiero que sea lindo, sino que funcione-->
+	<script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap-confirmation.min.js') }}"></script>
 	<!-- Esto sirve para cuando se despliegue el Boton para Editar o Eliminar-->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-	<!-- Importé estilos poronga pq me da igual la verdad. No quiero que sea lindo, sino que funcione-->
-    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap-confirmation.min.js') }}"></script>
   </body>
 </html>
