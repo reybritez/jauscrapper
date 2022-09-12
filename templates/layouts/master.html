@@ -1,0 +1,58 @@
+<!-- Documento base que se va a repetir en todas las páginas, 
+contiene al header y a las importaciones principales del sitio-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{% block title %}{% endblock %} | Bodega Sin Culpa </title>
+	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+  </head>
+  <body>
+	<nav class="navbar navbar-default">
+	  <div class="container-fluid">
+		<div class="navbar-header">
+		  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+			<span class="sr-only">Menú</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		  </button>
+		  <a class="navbar-brand" href="/">Sistema de Inventario</a>
+		</div>
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<form action="{{ url_for('buscar') }}" method="get" class="navbar-form navbar-left">
+			<div class="form-group">
+			  <input type="text" name="nombre" class="form-control" placeholder="Nombre...">
+			</div>
+			<button type="submit" class="btn btn-default">Buscar</button>
+		  </form>
+		  <ul class="nav navbar-nav navbar-right">
+			  <li><a href="#">Agregar</a></li>
+			  <li><a href="#">Todos Los Productos</a></li>
+		  </ul>
+		</div>
+	  </div>
+	</nav>
+	<div class="container">
+		{# Flashed messages | Notificaciones de acción (basicamente) #}
+		{% with messages = get_flashed_messages(with_categories=true) %}
+		  {% if messages %}
+			{% for category, message in messages %}
+			  <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
+			{% endfor %}
+		  {% endif %}
+		{% endwith %}
+		{# End Flashed messages #}
+		{% block body %}{% endblock %}
+	</div>
+	<!-- Esto sirve para cuando se despliegue el Boton para Editar o Eliminar-->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+	<!-- Importé estilos poronga pq me da igual la verdad. No quiero que sea lindo, sino que funcione-->
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap-confirmation.min.js') }}"></script>
+  </body>
+</html>
