@@ -1,3 +1,4 @@
+from ast import For
 from flask import Flask, redirect, url_for, render_template, request, flash
 from models import db, Producto
 from formularios import FormularioProducto
@@ -42,6 +43,27 @@ def buscar():
         Producto.nombre.contains(buscar_nombre)
     ).order_by(Producto.nombre).all()
     return render_template('web/productos.html', productos = todos_los_productos)
+
+@app.route('/agregar_producto', methods=('GET', 'POST'))
+def agregar_producto():
+    '''
+    Función para crear nuevo producto
+    '''
+    form = FormularioProducto()
+    if form.validate_on_submit():
+        mi_producto = Producto()
+        form.populate_obj(mi_producto)
+        db.session.add(mi_producto)
+        try:
+            db.session.commit()
+            # Notificacion
+            flash('Producto creado con éxito', 'success')
+            return redirect(url_for('productos'))
+        except:
+            db.session.rollback()
+            flash('Error creando producto.', 'danger')
+
+    return render_template('web/agregar_producto.html', form=form)
 
 #Funcion para Editar Productos
 @app.route("/editar_producto/<id>", methods=('GET', 'POST'))
