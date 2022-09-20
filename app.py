@@ -1,6 +1,6 @@
 from flask import Flask, redirect, url_for, render_template, request, flash
-from models import db, Producto
-from formularios import FormularioProducto
+from models import db, Producto, Ubicacion
+from formularios import FormularioProducto, FormularioUbicacion
 
 # Creo la base
 app = Flask(__name__)
@@ -31,7 +31,7 @@ def productos():
     existe = bool(Producto.query.all())
     if existe == False:
         flash(
-            f"Agrega productos, detalles y cantidades para verlos acá",
+            f"Agrega productos, detalles del mismo y cantidades iniciales para agregarlos acá",
             "info",
         )
     return render_template("web/productos.html", productos=productos)
@@ -46,7 +46,7 @@ def buscar():
     buscar_nombre = request.args.get("nombre")
     todos_los_productos = (
         Producto.query.filter(Producto.nombre_producto.contains(buscar_nombre))
-        .order_by(Producto.nombre)
+        .order_by(Producto.nombre_producto)
         .all()
     )
     return render_template("web/productos.html", productos=todos_los_productos)
@@ -115,3 +115,41 @@ def eliminar_producto():
         flash("Error borrando producto.", "danger")
 
     return redirect(url_for("productos"))
+
+
+# Página ubicaciones
+@app.route("/ubicaciones")
+def ubicaciones():
+    """
+    Muestra todos los ubicaciones
+    """
+    ubicaciones = Ubicacion.query.order_by(Ubicacion.nombre_ubicacion).all()
+    existe = bool(Ubicacion.query.all())
+    if existe == False:
+        flash(
+            f"Agrega ubicaciones de almacenamiento, bodegas o depósitos",
+            "info",
+        )
+    return render_template("web/ubicaciones.html", ubicaciones=ubicaciones)
+
+
+@app.route("/agregar_ubicacion", methods=("GET", "POST"))
+def agregar_ubicacion():
+    """
+    Función para crear nuevo ubicacion
+    """
+    form = FormularioUbicacion()
+    if form.validate_on_submit():
+        nueva_ubicacion = Ubicacion()
+        form.populate_obj(nueva_ubicacion)
+        db.session.add(nueva_ubicacion)
+        try:
+            db.session.commit()
+            # Notificacion
+            flash("Ubicacion creada con éxito", "success")
+            return redirect(url_for("ubicaciones"))
+        except:
+            db.session.rollback()
+            flash("Error creando ubicacion.", "danger")
+
+    return render_template("web/agregar_ubicacion.html", form=form)
