@@ -1,4 +1,3 @@
-from ast import For
 from flask import Flask, redirect, url_for, render_template, request, flash
 from models import db, Producto
 from formularios import FormularioProducto
