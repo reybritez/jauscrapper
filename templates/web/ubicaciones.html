@@ -1,0 +1,31 @@
+{% extends 'layouts/master.html' %}
+{% block title %} Ver Ubicaciones {% endblock %}
+{% block body %}
+<h1>Lista de Ubicaciones</h1>
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th scope="col">ID</th>
+			<th scope="col">Ubicacion</th>
+			<td></td>
+		</tr>
+	</thead>
+	<tbody>
+	{% for ubicacion in ubicaciones %}
+		<tr>
+			<td>{{ ubicacion.id_ubicacion }}</td>
+			<td>{{ ubicacion.nombre_ubicacion }}</td>
+			<td class="text-right">
+				<!-- <div class="row">
+					<form action="#" method="post" class="pull-right">
+						<input type="hidden" name="id_ubicacion" value="#">
+						<input type="submit" class="btn btn-danger" data-toggle="confirmation" {# data-title="¿Estas seguro?" #} value="Borrar">
+					</form>
+					<a class="btn btn-primary pull-right" href="#">Editar Cantidades</a>
+				</div> -->
+			</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'layouts/master.html' %}
+{% block title %}Agregar Ubicacion{% endblock %}
+{% block body %}
+<h1>Nueva Ubicacion</h1>
+<form action="{{ url_for('agregar_ubicacion') }}" method="post">
+	{{ generate_fields(form) }}
+	<input type="submit" class="btn btn-success" value="Añadir Ubicacion">
+</form>
+{% endblock %}

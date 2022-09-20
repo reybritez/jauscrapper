@@ -26,3 +26,13 @@ class FormularioProducto(FlaskForm):
             )
         ],
     )
+
+
+class FormularioUbicacion(FlaskForm):
+    nombre_ubicacion = StringField(
+        "Nombre",
+        validators=[
+            DataRequired(),
+            Length(min=-1, max=80, message="No puede tener más de 80 caracteres"),
+        ],
+    )
