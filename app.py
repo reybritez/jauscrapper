@@ -5,7 +5,7 @@ from formularios import FormularioProducto
 # Creo la base
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "hasd123a"
-app.config["DEBUG"] = False
+app.config["DEBUG"] = True
 
 # Conexión SQL
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
