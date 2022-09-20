@@ -28,6 +28,12 @@ def productos():
     Muestra todos los productos
     """
     productos = Producto.query.order_by(Producto.nombre_producto).all()
+    existe = bool(Producto.query.all())
+    if existe == False:
+        flash(
+            f"Agrega productos, detalles y cantidades para verlos acá",
+            "info",
+        )
     return render_template("web/productos.html", productos=productos)
 
 
