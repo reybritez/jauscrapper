@@ -6,22 +6,22 @@
 	<thead>
 		<tr>
 			<th scope="col">Producto</th>
-			<th scope="col">Precio</th>
+			<th scope="col">Stock</th>
 			<td></td>
 		</tr>
 	</thead>
 	<tbody>
 	{% for producto in productos %}
 		<tr>
-			<td>{{ producto.nombre }}</td>
-			<td>{{ producto.precio }}</td>
+			<td>{{ producto.nombre_producto }}</td>
+			<td>{{ producto.cantidad_producto }}</td>
 			<td class="text-right">
 				<div class="row">
 					<form action="{{ url_for('eliminar_producto') }}" method="post" class="pull-right">
-						<input type="hidden" name="id" value="{{ producto.id }}">
+						<input type="hidden" name="id_producto" value="{{ producto.id_producto }}">
 						<input type="submit" class="btn btn-danger" data-toggle="confirmation" {# data-title="¿Estas seguro?" #} value="Borrar">
 					</form>
-					<a class="btn btn-primary pull-right" href="{{ url_for('editar_producto', id=producto.id) }}">Editar Producto</a>
+					<a class="btn btn-primary pull-right" href="{{ url_for('editar_producto', id_producto=producto.id_producto) }}">Editar Cantidades</a>
 				</div>
 			</td>
 		</tr>
