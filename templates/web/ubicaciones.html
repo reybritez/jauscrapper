@@ -16,13 +16,13 @@
 			<td>{{ ubicacion.id_ubicacion }}</td>
 			<td>{{ ubicacion.nombre_ubicacion }}</td>
 			<td class="text-right">
-				<!-- <div class="row">
-					<form action="#" method="post" class="pull-right">
-						<input type="hidden" name="id_ubicacion" value="#">
+				<div class="row">
+					<form action="{{ url_for('eliminar_ubicacion') }}" method="post" class="pull-right">
+						<input type="hidden" name="id_ubicacion" value="{{ ubicacion.id_ubicacion }}">
 						<input type="submit" class="btn btn-danger" data-toggle="confirmation" {# data-title="¿Estas seguro?" #} value="Borrar">
 					</form>
-					<a class="btn btn-primary pull-right" href="#">Editar Cantidades</a>
-				</div> -->
+					<a class="btn btn-primary pull-right" href="{{ url_for('editar_ubicacion', id_ubicacion=ubicacion.id_ubicacion) }}">Editar Ubicación</a>
+				</div>
 			</td>
 		</tr>
 	{% endfor %}
