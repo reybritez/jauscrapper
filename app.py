@@ -123,7 +123,7 @@ def ubicaciones():
     """
     Muestra todos los ubicaciones
     """
-    ubicaciones = Ubicacion.query.order_by(Ubicacion.nombre_ubicacion).all()
+    ubicaciones = Ubicacion.query.order_by(Ubicacion.id_ubicacion).all()
     existe = bool(Ubicacion.query.all())
     if existe == False:
         flash(
