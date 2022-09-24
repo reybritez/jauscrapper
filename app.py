@@ -13,6 +13,8 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 
 # Ruta de inicio
+
+
 @app.route("/")
 def index():
     """
@@ -117,13 +119,14 @@ def eliminar_producto():
     return redirect(url_for("productos"))
 
 
+#### --------------- Locations --------------- ####
 # Página ubicaciones
 @app.route("/ubicaciones")
 def ubicaciones():
     """
     Muestra todos los ubicaciones
     """
-    ubicaciones = Ubicacion.query.order_by(Ubicacion.id_ubicacion).all()
+    ubicaciones = Ubicacion.query.order_by(Ubicacion.nombre_ubicacion).all()
     existe = bool(Ubicacion.query.all())
     if existe == False:
         flash(
@@ -153,3 +156,46 @@ def agregar_ubicacion():
             flash("Error creando ubicacion.", "danger")
 
     return render_template("web/agregar_ubicacion.html", form=form)
+
+
+# Funcion para Editar Ubicaciones
+@app.route("/editar_ubicacion/<id_ubicacion>", methods=("GET", "POST"))
+def editar_ubicacion(id_ubicacion):
+    """
+    Editar ubicacion
+
+    :param id_ubicacion: Id de la ubicacion
+    """
+    mi_ubicacion = Ubicacion.query.filter_by(id_ubicacion=id_ubicacion).first()
+    form = FormularioUbicacion(obj=mi_ubicacion)
+    if form.validate_on_submit():
+        try:
+            # Se actualiza con los nuevos datos
+            form.populate_obj(mi_ubicacion)
+            db.session.add(mi_ubicacion)
+            db.session.commit()
+            # Le avisa al usuario a través de flash
+            flash("Cambio en ubicacion realizado exitosamente", "success")
+        except:
+            db.session.rollback()
+            flash("Hubo un error editando esta ubicacion.", "danger")
+    return render_template("web/editar_ubicacion.html", form=form)
+
+
+@app.route("/ubicaciones/eliminar", methods=("POST",))
+def eliminar_ubicacion():
+    """
+    Funcion para Eliminar Ubicaciones
+    """
+    try:
+        mi_ubicacion = Ubicacion.query.filter_by(
+            id_ubicacion=request.form["id_ubicacion"]
+        ).first()
+        db.session.delete(mi_ubicacion)
+        db.session.commit()
+        flash("Ubicacion borrada exitosamente.", "danger")
+    except:
+        db.session.rollback()
+        flash("Error borrando ubicacion.", "danger")
+
+    return redirect(url_for("ubicaciones"))

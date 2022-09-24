@@ -21,8 +21,8 @@
 						<input type="hidden" name="id_ubicacion" value="#">
 						<input type="submit" class="btn btn-danger" data-toggle="confirmation" {# data-title="¿Estas seguro?" #} value="Borrar">
 					</form>
-					<a class="btn btn-primary pull-right" href="#">Editar Cantidades</a>
-				</div> -->
+					<a class="btn btn-primary pull-right" href="{{ url_for('editar_ubicacion', id_ubicacion=ubicacion.id_ubicacion) }}">Editar Ubicación</a>
+				</div>
 			</td>
 		</tr>
 	{% endfor %}

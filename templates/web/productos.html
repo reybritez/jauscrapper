@@ -21,7 +21,7 @@
 						<input type="hidden" name="id_producto" value="{{ producto.id_producto }}">
 						<input type="submit" class="btn btn-danger" data-toggle="confirmation" {# data-title="¿Estas seguro?" #} value="Borrar">
 					</form>
-					<a class="btn btn-primary pull-right" href="{{ url_for('editar_producto', id_producto=producto.id_producto) }}">Editar Cantidades</a>
+					<a class="btn btn-primary pull-right" href="{{ url_for('editar_producto', id_producto=producto.id_producto) }}">&nbsp; Editar &nbsp;&nbsp; </a>
 				</div>
 			</td>
 		</tr>
