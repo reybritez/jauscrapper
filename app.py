@@ -120,7 +120,7 @@ def eliminar_producto():
 
 
 # Página ubicaciones
-@app.route("/ubicaciones")
+@app.route("/ubicaciones", methods=("GET", "POST"))
 def ubicaciones():
     """
     Muestra todos los ubicaciones
@@ -179,3 +179,22 @@ def editar_ubicacion(id_ubicacion):
             db.session.rollback()
             flash("Hubo un error editando este producto.", "danger")
     return render_template("web/editar_producto.html", form=form)
+
+
+@app.route("/ubicaciones/eliminar", methods=("POST",))
+def eliminar_ubicacion():
+    """
+    Funcion para Eliminar Ubicaciones
+    """
+    try:
+        mi_ubicacion = Ubicacion.query.filter_by(
+            id_ubicacion=request.form["id_ubicacion"]
+        ).first()
+        db.session.delete(mi_ubicacion)
+        db.session.commit()
+        flash("Se ha borrado exitosamente esta ubicación.", "danger")
+    except:
+        db.session.rollback()
+        flash("Error borrando ubicación.", "danger")
+
+    return redirect(url_for("ubicaciones"))
