@@ -1,6 +1,6 @@
 from flask import Flask, redirect, url_for, render_template, request, flash
-from models import db, Producto, Ubicacion
-from formularios import FormularioProducto, FormularioUbicacion
+from models import db, Producto, Ubicacion, Movimiento
+from formularios import FormularioProducto, FormularioUbicacion, FormularioMoverProducto
 
 # Creo la base
 app = Flask(__name__)
@@ -198,3 +198,11 @@ def eliminar_ubicacion():
         flash("Error borrando ubicación.", "danger")
 
     return redirect(url_for("ubicaciones"))
+
+
+@app.route("/movimientos", methods=['GET', 'POST'])
+def movimientos():
+    detalles = Movimiento.query.all()
+    producto_m = Producto.query.all()
+    existen = bool(Movimiento.query.all())
+    # Tengo que hacer un listado de detalles y luego pasar las listas para mostrarlos en el form y tal

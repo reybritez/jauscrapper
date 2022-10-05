@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField
+from wtforms import StringField, IntegerField, SelectField
 from wtforms.validators import DataRequired, Length, NumberRange
 
 
@@ -36,3 +36,11 @@ class FormularioUbicacion(FlaskForm):
             Length(min=-1, max=80, message="No puede tener más de 80 caracteres"),
         ],
     )
+
+
+class FormularioMoverProducto(FlaskForm):
+    nombre_mp = SelectField('Nombre del Producto')
+    desde_mp = SelectField('Mover Desde')
+    hasta_mp = SelectField('Mover A')
+    cantidad_a_mover = IntegerField(
+        'Cantidad', validators=[NumberRange(min=1, max=10000000), DataRequired()])
