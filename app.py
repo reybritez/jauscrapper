@@ -86,6 +86,8 @@ def editar_producto(id_producto):
     """
     mi_producto = Producto.query.filter_by(id_producto=id_producto).first()
     form = FormularioProducto(obj=mi_producto)
+    ubicaciones= Ubicacion.query.order_by(Ubicacion.nombre_ubicacion).all()
+    form.nombre_ubicacion.choices = [ubicacion.nombre_ubicacion for ubicacion in ubicaciones]
     if form.validate_on_submit():
         try:
             # Se actualiza con los nuevos datos
@@ -94,6 +96,7 @@ def editar_producto(id_producto):
             db.session.commit()
             # Le avisa al usuario a través de flash
             flash("Guardado exitosamente", "success")
+            return redirect(url_for('productos'))
         except:
             db.session.rollback()
             flash("Hubo un error editando este producto.", "danger")

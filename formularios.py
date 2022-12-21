@@ -25,6 +25,9 @@ class FormularioProducto(FlaskForm):
             )
         ],
     )
+    nombre_ubicacion = SelectField(
+        "Ubicacion",
+    )
 
 
 class FormularioUbicacion(FlaskForm):

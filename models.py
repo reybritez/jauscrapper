@@ -16,7 +16,7 @@ class Producto(db.Model):
     nombre_producto = db.Column(db.String(80), nullable=False)
     detalles_producto = db.Column(db.String(120), nullable=False)
     cantidad_producto = db.Column(db.Integer, nullable=False)
-
+    nombre_ubicacion = db.Column(db.String(120), nullable=False)
     def __repr__(self):
         return "Productos %r" % self.nombre_producto
 
