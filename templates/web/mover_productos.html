@@ -1,0 +1,9 @@
+{% extends 'layouts/master.html' %}
+{% block title %}Mover Productos{% endblock %}
+{% block body %}
+<h1>Mover Productos</h1>
+<form action="{{ url_for('mover_producto') }}" method="post">
+	{{ generate_fields(form) }}
+	<input type="submit" class="btn btn-success" value="Mover Producto">
+</form>
+{% endblock %}
