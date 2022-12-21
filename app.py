@@ -1,6 +1,6 @@
 from flask import Flask, redirect, url_for, render_template, request, flash
-from models import db, Producto, Ubicacion
-from formularios import FormularioProducto, FormularioUbicacion
+from models import db, Producto, Ubicacion, Movimiento
+from formularios import FormularioProducto, FormularioUbicacion, MoverProducto
 
 # Creo la base
 app = Flask(__name__)
@@ -134,7 +134,7 @@ def ubicaciones():
         )
     return render_template("web/ubicaciones.html", ubicaciones=ubicaciones)
 
-
+# Funcion para Agregar Ubicacion
 @app.route("/agregar_ubicacion", methods=("GET", "POST"))
 def agregar_ubicacion():
     """
@@ -180,7 +180,7 @@ def editar_ubicacion(id_ubicacion):
             flash("Hubo un error editando este producto.", "danger")
     return render_template("web/editar_producto.html", form=form)
 
-
+# Funcion para Eliminar Ubicaciones
 @app.route("/ubicaciones/eliminar", methods=("POST",))
 def eliminar_ubicacion():
     """
@@ -198,3 +198,47 @@ def eliminar_ubicacion():
         flash("Error borrando ubicación.", "danger")
 
     return redirect(url_for("ubicaciones"))
+
+# Página movimientos
+@app.route("/movimientos", methods=("GET", "POST"))
+def movimientos():
+    """
+    Muestra todos los movimientos
+    """
+    movimientos = Movimiento.query.order_by(Movimiento.id_movimiento).all()
+    existe = bool(Movimiento.query.all())
+    if existe == False:
+        flash(
+            f"Realiza movimientos de productos a otras ubicaciones de almacenamiento, bodegas o depósitos para ver el historial",
+            "info",
+        )
+    return render_template("web/movimientos.html", movimientos=movimientos)
+
+
+#Funcion para realizar movimiento de productos
+@app.route("/mover_producto", methods=("GET", "POST"))
+def mover_producto():
+    """
+    Función para mover productos
+    """
+    form = MoverProducto()
+    productos = Producto.query.order_by(Producto.nombre_producto).all()
+    form.nombre_producto_a_mover.choices = [producto.nombre_producto for producto in productos]
+    ubicaciones= Ubicacion.query.order_by(Ubicacion.nombre_ubicacion).all()
+    form.salida_desde.choices = [ubicacion.nombre_ubicacion for ubicacion in ubicaciones]
+    form.entrada_a.choices = [ubicacion.nombre_ubicacion for ubicacion in reversed(ubicaciones)]
+    if form.validate_on_submit():
+        
+        mover = Movimiento()
+        form.populate_obj(mover)
+        db.session.add(mover)
+        try:
+            db.session.commit()
+            # Notificacion
+            flash("Movimiento registrado con exito", "success")
+            return redirect(url_for("ubicaciones"))
+        except:
+            db.session.rollback()
+            flash("Error creando movimiento.", "danger")
+
+    return render_template("web/mover_productos.html", form=form)
