@@ -5,14 +5,16 @@
 <table class="table table-hover">
 	<thead>
 		<tr>
+			<th scope="col">ID</th>
 			<th scope="col">Producto</th>
-			<th scope="col">Stock</th>
+			<th scope="col">Cantidad</th>
 			<td></td>
 		</tr>
 	</thead>
 	<tbody>
 	{% for producto in productos %}
 		<tr>
+			<td>{{ producto.id_producto }}</td>
 			<td>{{ producto.nombre_producto }}</td>
 			<td>{{ producto.cantidad_producto }}</td>
 			<td class="text-right">
